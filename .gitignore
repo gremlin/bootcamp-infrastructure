@@ -1,0 +1,6 @@
+# Mac Junk
+.DS_Store
+
+# Terraform state and files
+terraform.tfstate*
+.terraform
