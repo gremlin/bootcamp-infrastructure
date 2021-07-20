@@ -45,3 +45,9 @@ variable "k8s_version" {
   description = "The version of Kubernetes to use. To see available versions use the command: doctl kubernetes options versions"
   default = "1.20.8-do.0"
 }
+
+variable "domain" {
+  type = string
+  description = "The primary domain for the demo application. Individual group IDs will be created as subdomains."
+  default = "gremlinbootcamp.com"
+}

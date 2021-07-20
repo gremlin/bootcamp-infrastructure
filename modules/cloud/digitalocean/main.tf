@@ -69,3 +69,10 @@ resource "digitalocean_loadbalancer" "public" {
   # Matches against tag set in k8s_cluster node_pool to apply to cluster nodes.
   droplet_tag = "group-${var.group_id}"
 }
+
+resource "digitalocean_record" "subdomain" {
+  domain = var.domain
+  type = "A"
+  name = "group${var.group_id}"
+  value = digitalocean_loadbalancer.public.ip
+}
