@@ -4,3 +4,6 @@
 # Terraform state and files
 terraform.tfstate*
 .terraform*
+
+# Variable files
+*.tfvars*
