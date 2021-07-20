@@ -8,8 +8,8 @@ The Terraform files here will help you build a Kubernetes cluster and install Gr
 
 In order to use this repository you'll need:
 
-* An account for a cloud hosting provider. See the [`modules/cloud` directory] to see which providers are supported.
-* An account for a monitoring provider. See the [`modules/monitoring` directory] to see which providers are supported.
+* An account for a cloud hosting provider. See the [`modules/cloud` directory](https://github.com/gremlin/bootcamp-infrastructure/tree/main/modules/cloud) to see which providers are supported.
+* An account for a monitoring provider. See the [`modules/monitoring` directory](https://github.com/gremlin/bootcamp-infrastructure/tree/main/modules/monitoring) to see which providers are supported.
 * A Gremlin account. If you don't have a Gremlin account, you can [create one for free](https://gremlin.com/free).
 
 You'll also need Terraform and kubectl (the Kubernetes command-line tool). For more information see:
