@@ -22,4 +22,12 @@ resource "helm_release" "gremlin" {
     name  = "gremlin.secret.teamSecret"
     value = var.team_secret
   }
+  set {
+    name = "gremlin.hostPID"
+    value = "true"
+  }
+  set {
+    name = "gremlin.container.driver"
+    value = "containerd-runc"
+  }
 }
