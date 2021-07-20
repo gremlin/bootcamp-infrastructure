@@ -43,6 +43,7 @@ variable "node_size" {
 variable "k8s_version" {
   type = string
   description = "The version of Kubernetes to use. To see available versions use the command: doctl kubernetes options versions"
+  # Note that Kubernetes 1.20 and above use the containerd runtime. Set the runtime in outputs.tf
   default = "1.20.8-do.0"
 }
 

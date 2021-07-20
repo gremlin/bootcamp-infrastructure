@@ -1,4 +1,3 @@
-
 ###
 # Cloud providers / Infrastructure
 # Uncomment the cloud provider that you want to use.
@@ -54,7 +53,9 @@ module "gremlin" {
   group_id = var.group_id
   team_id = var.gremlin_team_id
   team_secret = var.gremlin_team_secret
+  container_runtime = module.cloud.container_runtime
 }
+
 
 ###
 # Demo application
@@ -76,6 +77,7 @@ Standard Boutique Shop install.
 /*
 Bank of Anthos install.
 */
+
 
 ###
 # Monitoring and Observability
@@ -100,9 +102,12 @@ module "monitoring" {
   app_key = var.datadog_app_key
 }
 
-
 # New Relic
+/*
+New Relic specific variables and the New Relic module call will go here.
+*/
 
 # Dynatrace
-
-# Grafana
+/*
+Dynatrace specific variables and the Dynatrace module call will go here.
+*/

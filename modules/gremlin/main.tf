@@ -32,6 +32,6 @@ resource "helm_release" "gremlin" {
   }
   set {
     name = "gremlin.container.driver"
-    value = "containerd-runc"
+    value = var.container_runtime
   }
 }
