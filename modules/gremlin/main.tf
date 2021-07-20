@@ -23,6 +23,10 @@ resource "helm_release" "gremlin" {
     value = var.team_secret
   }
   set {
+    name = "gremlin.apparmor"
+    value = "unconfined"
+  }
+  set {
     name = "gremlin.hostPID"
     value = "true"
   }
