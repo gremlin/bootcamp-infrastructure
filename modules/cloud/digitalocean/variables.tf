@@ -1,9 +1,9 @@
-variable "do_token" {
-  type        = string
+variable "token" {
+  type = string
   description = "Your DigitalOcean API token. See https://cloud.digitalocean.com/account/api/tokens to generate a token."
 
   validation {
-    condition     = can(regex("^\\w+$", var.do_token))
+    condition = can(regex("^\\w+$", var.token))
     error_message = "Your DigitalOcean API token must be a valid token."
   }
 }

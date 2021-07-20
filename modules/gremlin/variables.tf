@@ -10,22 +10,22 @@ variable "group_id" {
   }
 }
 
-variable "gremlin_team_id" {
+variable "team_id" {
   type        = string
   description = "The Gremlin team ID. See https://app.gremlin.com/settings/teams to get your team ID."
 
   validation {
-    condition     = can(regex("^[0-9A-Za-z_-]+$", var.gremlin_team_id))
+    condition     = can(regex("^[0-9A-Za-z_-]+$", var.team_id))
     error_message = "Your Gremlin team ID must be a valid ID."
   }
 }
 
-variable "gremlin_team_secret" {
+variable "team_secret" {
   type        = string
   description = "The Gremlin team secret for the group. See https://app.gremlin.com/settings/teams to get your team secret."
 
   validation {
-    condition     = can(regex("^[0-9A-Za-z_-]+$", var.gremlin_team_secret))
+    condition     = can(regex("^[0-9A-Za-z_-]+$", var.team_secret))
     error_message = "Your Gremlin team secret must be a valid secret."
   }
 }
