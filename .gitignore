@@ -3,4 +3,4 @@
 
 # Terraform state and files
 terraform.tfstate*
-.terraform
+.terraform*
