@@ -34,8 +34,14 @@ provider "datadog" {
   app_key = var.app_key
 }
 
+# Get the "Bootcamps" dashboard list
+data "datadog_dashboard_list" "bootcamps_list" {
+  name = "Bootcamps"
+}
+
 # Create the dashboard.
 resource "datadog_dashboard_json" "dashboard_json" {
+  dashboard_lists = ["${data.datadog_dashboard_list.bootcamps_list.id}"]
   dashboard = <<EOF
 {
   "title": "Group ${var.group_id} Dashboard",
