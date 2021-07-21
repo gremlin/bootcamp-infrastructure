@@ -1,6 +1,7 @@
 variable "token" {
   type = string
   description = "Your DigitalOcean API token. See https://cloud.digitalocean.com/account/api/tokens to generate a token."
+  sensitive = true
 
   validation {
     condition = can(regex("^\\w+$", var.token))

@@ -23,6 +23,7 @@ variable "team_id" {
 variable "team_secret" {
   type = string
   description = "The Gremlin team secret for the group. See https://app.gremlin.com/settings/teams to get your team secret."
+  sensitive = true
 
   validation {
     condition = can(regex("^[0-9A-Za-z_-]+$", var.team_secret))

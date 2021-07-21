@@ -6,9 +6,11 @@ variable "group_id" {
 variable "api_key" {
   type        = string
   description = "The Datadog API Key. See https://app.datadoghq.com/account/settings#api to get or create an API Key."
+  sensitive = true
 }
 
 variable "app_key" {
   type        = string
   description = "The Datadog Application Key. See https://app.datadoghq.com/account/settings#api to get or create an Application Key."
+  sensitive = true
 }
