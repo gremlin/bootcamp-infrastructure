@@ -201,12 +201,33 @@ resource "datadog_dashboard_json" "dashboard_json" {
           {
             "id": 5283738802616544,
             "definition": {
-              "title": "Memory Used",
+              "title": "Free memory",
               "show_legend": false,
+              "legend_layout": "auto",
+              "legend_columns": [
+                "avg",
+                "min",
+                "max",
+                "value",
+                "sum"
+              ],
+              "time": {},
               "type": "timeseries",
               "requests": [
                 {
-                  "q": "avg:system.mem.used{group:${var.group_id}} by {host}",
+                  "formulas": [
+                    {
+                      "formula": "query1"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:system.mem.usable{group:${var.group_id}} by {host}"
+                    }
+                  ],
+                  "response_format": "timeseries",
                   "style": {
                     "palette": "dog_classic",
                     "line_type": "solid",
@@ -225,7 +246,8 @@ resource "datadog_dashboard_json" "dashboard_json" {
                 {
                   "q": "gremlin.team:group_${var.group_id}"
                 }
-              ]
+              ],
+              "markers": []
             }
           },
           {
@@ -261,12 +283,38 @@ resource "datadog_dashboard_json" "dashboard_json" {
           {
             "id": 3865939773871699,
             "definition": {
-              "title": "Disk Used",
+              "title": "Pct Disk Used",
               "show_legend": false,
+              "legend_layout": "auto",
+              "legend_columns": [
+                "avg",
+                "min",
+                "max",
+                "value",
+                "sum"
+              ],
+              "time": {},
               "type": "timeseries",
               "requests": [
                 {
-                  "q": "avg:system.disk.used{group:${var.group_id}} by {host}",
+                  "formulas": [
+                    {
+                      "formula": "100 * (query1 / query2)"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:system.disk.used{group:${var.group_id}} by {host}"
+                    },
+                    {
+                      "data_source": "metrics",
+                      "name": "query2",
+                      "query": "avg:system.disk.total{group:${var.group_id}} by {host}"
+                    }
+                  ],
+                  "response_format": "timeseries",
                   "style": {
                     "palette": "cool",
                     "line_type": "solid",
@@ -285,7 +333,8 @@ resource "datadog_dashboard_json" "dashboard_json" {
                 {
                   "q": "gremlin.team:group_${var.group_id}"
                 }
-              ]
+              ],
+              "markers": []
             }
           },
           {
@@ -371,170 +420,470 @@ resource "datadog_dashboard_json" "dashboard_json" {
             "id": 3051040020520518,
             "definition": {
               "title": "adservice Response Time",
+              "time": {},
               "type": "query_value",
               "requests": [
                 {
-                  "q": "avg:network.tcp.response_time{group:${var.group_id},instance:adservice}*1000",
-                  "aggregator": "last"
+                  "formulas": [
+                    {
+                      "formula": "query1 * 1000"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:network.tcp.response_time{group:${var.group_id},instance:adservice}",
+                      "aggregator": "last"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "conditional_formats": [
+                    {
+                      "comparator": ">=",
+                      "palette": "red_on_white",
+                      "value": 500
+                    },
+                    {
+                      "comparator": ">=",
+                      "palette": "yellow_on_white",
+                      "value": 250
+                    },
+                    {
+                      "comparator": ">",
+                      "palette": "green_on_white",
+                      "value": 0
+                    }
+                  ]
                 }
               ],
               "autoscale": false,
               "custom_unit": "ms",
               "text_align": "center",
-              "precision": 3
+              "precision": 1
             }
           },
           {
             "id": 963069413297708,
             "definition": {
               "title": "cartservice Response Time",
+              "time": {},
               "type": "query_value",
               "requests": [
                 {
-                  "q": "avg:network.tcp.response_time{group:${var.group_id},instance:cartservice}*1000",
-                  "aggregator": "last"
+                  "formulas": [
+                    {
+                      "formula": "query1 * 1000"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:network.tcp.response_time{group:${var.group_id},instance:cartservice}",
+                      "aggregator": "last"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "conditional_formats": [
+                    {
+                      "comparator": ">=",
+                      "palette": "red_on_white",
+                      "value": 500
+                    },
+                    {
+                      "comparator": ">=",
+                      "palette": "yellow_on_white",
+                      "value": 250
+                    },
+                    {
+                      "comparator": ">",
+                      "palette": "green_on_white",
+                      "value": 0
+                    }
+                  ]
                 }
               ],
               "autoscale": false,
               "custom_unit": "ms",
               "text_align": "center",
-              "precision": 3
+              "precision": 1
             }
           },
           {
             "id": 3912433138602544,
             "definition": {
               "title": "checkoutservice Response Time",
+              "time": {},
               "type": "query_value",
               "requests": [
                 {
-                  "q": "avg:network.tcp.response_time{group:${var.group_id},instance:checkoutservice}*1000",
-                  "aggregator": "last"
+                  "formulas": [
+                    {
+                      "formula": "query1 * 1000"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:network.tcp.response_time{group:${var.group_id},instance:checkoutservice}",
+                      "aggregator": "last"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "conditional_formats": [
+                    {
+                      "comparator": ">=",
+                      "palette": "red_on_white",
+                      "value": 500
+                    },
+                    {
+                      "comparator": ">=",
+                      "palette": "yellow_on_white",
+                      "value": 250
+                    },
+                    {
+                      "comparator": ">",
+                      "palette": "green_on_white",
+                      "value": 0
+                    }
+                  ]
                 }
               ],
               "autoscale": false,
               "custom_unit": "ms",
               "text_align": "center",
-              "precision": 3
+              "precision": 1
             }
           },
           {
             "id": 876199403718878,
             "definition": {
               "title": "currencyservice Response Time",
+              "time": {},
               "type": "query_value",
               "requests": [
                 {
-                  "q": "avg:network.tcp.response_time{group:${var.group_id},instance:currencyservice}*1000",
-                  "aggregator": "last"
+                  "formulas": [
+                    {
+                      "formula": "query1 * 1000"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:network.tcp.response_time{group:${var.group_id},instance:currencyservice}",
+                      "aggregator": "last"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "conditional_formats": [
+                    {
+                      "comparator": ">=",
+                      "palette": "red_on_white",
+                      "value": 500
+                    },
+                    {
+                      "comparator": ">=",
+                      "palette": "yellow_on_white",
+                      "value": 250
+                    },
+                    {
+                      "comparator": ">",
+                      "palette": "green_on_white",
+                      "value": 0
+                    }
+                  ]
                 }
               ],
               "autoscale": false,
               "custom_unit": "ms",
               "text_align": "center",
-              "precision": 3
+              "precision": 1
             }
           },
           {
             "id": 8945727563188280,
             "definition": {
               "title": "emailservice Response Time",
+              "time": {},
               "type": "query_value",
               "requests": [
                 {
-                  "q": "avg:network.tcp.response_time{group:${var.group_id},instance:emailservice}*1000",
-                  "aggregator": "last"
+                  "formulas": [
+                    {
+                      "formula": "query1 * 1000"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:network.tcp.response_time{group:${var.group_id},instance:emailservice}",
+                      "aggregator": "last"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "conditional_formats": [
+                    {
+                      "comparator": ">=",
+                      "palette": "red_on_white",
+                      "value": 500
+                    },
+                    {
+                      "comparator": ">=",
+                      "palette": "yellow_on_white",
+                      "value": 250
+                    },
+                    {
+                      "comparator": ">",
+                      "palette": "green_on_white",
+                      "value": 0
+                    }
+                  ]
                 }
               ],
               "autoscale": false,
               "custom_unit": "ms",
               "text_align": "center",
-              "precision": 3
+              "precision": 1
             }
           },
           {
             "id": 2558035315572097,
             "definition": {
               "title": "frontend Response Time",
+              "time": {},
               "type": "query_value",
               "requests": [
                 {
-                  "q": "avg:network.tcp.response_time{group:${var.group_id},instance:frontend}*1000",
-                  "aggregator": "last"
+                  "formulas": [
+                    {
+                      "formula": "query1 * 1000"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:network.tcp.response_time{group:${var.group_id},instance:frontend}",
+                      "aggregator": "last"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "conditional_formats": [
+                    {
+                      "comparator": ">=",
+                      "palette": "red_on_white",
+                      "value": 500
+                    },
+                    {
+                      "comparator": ">=",
+                      "palette": "yellow_on_white",
+                      "value": 250
+                    },
+                    {
+                      "comparator": ">",
+                      "palette": "green_on_white",
+                      "value": 0
+                    }
+                  ]
                 }
               ],
               "autoscale": false,
               "custom_unit": "ms",
               "text_align": "center",
-              "precision": 3
+              "precision": 1
             }
           },
           {
             "id": 6860283099976008,
             "definition": {
               "title": "paymentservice Response Time",
+              "time": {},
               "type": "query_value",
               "requests": [
                 {
-                  "q": "avg:network.tcp.response_time{group:${var.group_id},instance:paymentservice}*1000",
-                  "aggregator": "last"
+                  "formulas": [
+                    {
+                      "formula": "query1 * 1000"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:network.tcp.response_time{group:${var.group_id},instance:paymentservice}",
+                      "aggregator": "last"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "conditional_formats": [
+                    {
+                      "comparator": ">=",
+                      "palette": "red_on_white",
+                      "value": 500
+                    },
+                    {
+                      "comparator": ">=",
+                      "palette": "yellow_on_white",
+                      "value": 250
+                    },
+                    {
+                      "comparator": ">",
+                      "palette": "green_on_white",
+                      "value": 0
+                    }
+                  ]
                 }
               ],
               "autoscale": false,
               "custom_unit": "ms",
               "text_align": "center",
-              "precision": 3
+              "precision": 1
             }
           },
           {
             "id": 7183568897722437,
             "definition": {
               "title": "productcatalogservice Response Time",
+              "time": {},
               "type": "query_value",
               "requests": [
                 {
-                  "q": "avg:network.tcp.response_time{group:${var.group_id},instance:productcatalogservice}*1000",
-                  "aggregator": "last"
+                  "formulas": [
+                    {
+                      "formula": "query1 * 1000"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:network.tcp.response_time{group:${var.group_id},instance:productcatalogservice}",
+                      "aggregator": "last"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "conditional_formats": [
+                    {
+                      "comparator": ">=",
+                      "palette": "red_on_white",
+                      "value": 500
+                    },
+                    {
+                      "comparator": ">=",
+                      "palette": "yellow_on_white",
+                      "value": 250
+                    },
+                    {
+                      "comparator": ">",
+                      "palette": "green_on_white",
+                      "value": 0
+                    }
+                  ]
                 }
               ],
               "autoscale": false,
               "custom_unit": "ms",
               "text_align": "center",
-              "precision": 3
+              "precision": 1
             }
           },
           {
             "id": 7294975627404891,
             "definition": {
               "title": "recommendationservice Response Time",
+              "time": {},
               "type": "query_value",
               "requests": [
                 {
-                  "q": "avg:network.tcp.response_time{group:${var.group_id},instance:recommendationservice}*1000",
-                  "aggregator": "last"
+                  "formulas": [
+                    {
+                      "formula": "query1 * 1000"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:network.tcp.response_time{group:${var.group_id},instance:recommendationservice}",
+                      "aggregator": "last"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "conditional_formats": [
+                    {
+                      "comparator": ">=",
+                      "palette": "red_on_white",
+                      "value": 500
+                    },
+                    {
+                      "comparator": ">=",
+                      "palette": "yellow_on_white",
+                      "value": 250
+                    },
+                    {
+                      "comparator": ">",
+                      "palette": "green_on_white",
+                      "value": 0
+                    }
+                  ]
                 }
               ],
               "autoscale": false,
               "custom_unit": "ms",
               "text_align": "center",
-              "precision": 3
+              "precision": 1
             }
           },
           {
             "id": 7462335384585672,
             "definition": {
               "title": "shippingservice Response Time",
+              "time": {},
               "type": "query_value",
               "requests": [
                 {
-                  "q": "avg:network.tcp.response_time{group:${var.group_id},instance:shippingservice}*1000",
-                  "aggregator": "last"
+                  "formulas": [
+                    {
+                      "formula": "query1 * 1000"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:network.tcp.response_time{group:${var.group_id},instance:shippingservice}",
+                      "aggregator": "last"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "conditional_formats": [
+                    {
+                      "comparator": ">=",
+                      "palette": "red_on_white",
+                      "value": 500
+                    },
+                    {
+                      "comparator": ">=",
+                      "palette": "yellow_on_white",
+                      "value": 250
+                    },
+                    {
+                      "comparator": ">",
+                      "palette": "green_on_white",
+                      "value": 0
+                    }
+                  ]
                 }
               ],
               "autoscale": false,
               "custom_unit": "ms",
               "text_align": "center",
-              "precision": 3
+              "precision": 1
             }
           }
         ]
@@ -550,20 +899,25 @@ resource "datadog_dashboard_json" "dashboard_json" {
           {
             "id": 3730561971601356,
             "definition": {
-              "title": "Running containers",
+              "title": "Pods Running",
+              "time": {},
               "type": "query_value",
               "requests": [
                 {
-                  "q": "sum:docker.containers.running{group:${var.group_id}}",
-                  "aggregator": "avg",
-                  "conditional_formats": [
+                  "formulas": [
                     {
-                      "hide_value": false,
-                      "comparator": ">",
-                      "palette": "green_on_white",
-                      "value": 0
+                      "formula": "query1"
                     }
-                  ]
+                  ],
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "sum:kubernetes.pods.running{group:${var.group_id}}",
+                      "aggregator": "avg"
+                    }
+                  ],
+                  "response_format": "scalar"
                 }
               ],
               "autoscale": true,
@@ -572,27 +926,130 @@ resource "datadog_dashboard_json" "dashboard_json" {
             }
           },
           {
-            "id": 886024990536879,
+            "id": 3526949109421286,
             "definition": {
-              "title": "Stopped containers",
-              "type": "query_value",
+              "title": "Container Restarts by Pod",
+              "title_size": "16",
+              "title_align": "left",
+              "show_legend": false,
+              "legend_layout": "vertical",
+              "legend_columns": [
+                "max",
+                "value",
+                "sum"
+              ],
+              "time": {},
+              "type": "timeseries",
               "requests": [
                 {
-                  "q": "sum:docker.containers.stopped{group:${var.group_id}}",
-                  "aggregator": "avg",
-                  "conditional_formats": [
+                  "formulas": [
                     {
-                      "hide_value": false,
-                      "comparator": ">",
-                      "palette": "yellow_on_white",
-                      "value": 0
+                      "alias": "Restarts",
+                      "formula": "query1"
                     }
-                  ]
+                  ],
+                  "queries": [
+                    {
+                      "query": "sum:kubernetes_state.container.restarts{group:${var.group_id}} by {pod_name}",
+                      "data_source": "metrics",
+                      "name": "query1"
+                    }
+                  ],
+                  "response_format": "timeseries",
+                  "on_right_yaxis": false,
+                  "style": {
+                    "palette": "dog_classic",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  },
+                  "display_type": "bars"
                 }
               ],
-              "autoscale": true,
-              "text_align": "center",
-              "precision": 0
+              "yaxis": {
+                "include_zero": true,
+                "label": "",
+                "scale": "linear",
+                "min": "auto",
+                "max": "auto"
+              },
+              "markers": []
+            }
+          },
+          {
+            "id": 2398687411132898,
+            "definition": {
+              "title": "Containers in CrashloopBackOff (by Pod)",
+              "title_size": "16",
+              "title_align": "left",
+              "show_legend": false,
+              "legend_layout": "vertical",
+              "legend_columns": [
+                "avg",
+                "max",
+                "value"
+              ],
+              "time": {},
+              "type": "timeseries",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "alias": "CrashloopBackOff",
+                      "formula": "query1"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "query": "sum:kubernetes.containers.state.waiting{reason:crashloopbackoff,group:${var.group_id}} by {pod_name}",
+                      "data_source": "metrics",
+                      "name": "query1"
+                    }
+                  ],
+                  "response_format": "timeseries",
+                  "on_right_yaxis": false,
+                  "style": {
+                    "palette": "dog_classic",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  },
+                  "display_type": "bars"
+                }
+              ],
+              "yaxis": {
+                "include_zero": true,
+                "label": "",
+                "scale": "linear",
+                "min": "auto",
+                "max": "auto"
+              },
+              "markers": []
+            }
+          },
+          {
+            "id": 4288511275320326,
+            "definition": {
+              "title": "CPU % Grouped by Microservices",
+              "type": "hostmap",
+              "requests": {
+                "fill": {
+                  "q": "avg:process.stat.container.cpu.total_pct{group:${var.group_id}} by {host}"
+                }
+              },
+              "node_type": "container",
+              "no_metric_hosts": false,
+              "no_group_hosts": false,
+              "group": [
+                "kube_deployment"
+              ],
+              "scope": [
+                "group:${var.group_id}"
+              ],
+              "style": {
+                "palette": "YlOrRd",
+                "palette_flip": false,
+                "fill_min": "0",
+                "fill_max": "100"
+              }
             }
           },
           {
@@ -629,33 +1086,6 @@ resource "datadog_dashboard_json" "dashboard_json" {
               "style": {
                 "palette": "green_to_orange",
                 "palette_flip": false
-              }
-            }
-          },
-          {
-            "id": 4288511275320326,
-            "definition": {
-              "title": "CPU % Grouped by Microservices",
-              "type": "hostmap",
-              "requests": {
-                "fill": {
-                  "q": "avg:process.stat.container.cpu.total_pct{group:${var.group_id}} by {host}"
-                }
-              },
-              "node_type": "container",
-              "no_metric_hosts": false,
-              "no_group_hosts": false,
-              "group": [
-                "kube_deployment"
-              ],
-              "scope": [
-                "group:${var.group_id}"
-              ],
-              "style": {
-                "palette": "YlOrRd",
-                "palette_flip": false,
-                "fill_min": "0",
-                "fill_max": "100"
               }
             }
           },
@@ -889,7 +1319,7 @@ resource "datadog_dashboard_json" "dashboard_json" {
   "is_read_only": false,
   "notify_list": [],
   "reflow_type": "auto",
-  "id": "ga8-mmw-se6"
+  "id": "j2g-suf-dwq"
 }
   EOF
 }
