@@ -12,8 +12,8 @@ module "cloud" {
   source = "./modules/cloud/digitalocean"
 
   # Pass variables
-  group_id = var.group_id
   token = var.digitalocean_token 
+  num_clusters = var.num_clusters
 }
 
 # AWS EKS
@@ -35,7 +35,7 @@ GKS specific variables and the GKS module call will go here.
 ###
 # Helm setup and Gremlin Installation
 ###
-
+/*
 # Setup the Helm Provider here so that subsequent modules don't need to reinstantiate it.
 provider "helm" {
   kubernetes {
@@ -55,6 +55,7 @@ module "gremlin" {
   team_secret = var.gremlin_team_secret
   container_runtime = module.cloud.container_runtime
 }
+*/
 
 
 ###
@@ -62,11 +63,13 @@ module "gremlin" {
 # Uncomment the demo application that you want to use.
 ###
 
+/*
 # Boutique Shop - Gremlin
 # This is a modified version of the Google Microservices Demo at https://github.com/GoogleCloudPlatform/microservices-demo
 module "app" {
   source = "./modules/app/boutique_shop-gremlin"
 }
+*/
 
 # Boutique Shop
 /*
@@ -84,6 +87,7 @@ Bank of Anthos install.
 # Uncommment the monitoring provider that you want to use.
 ###
 
+/*
 # Datadog
 variable "datadog_api_key" {
   type        = string
@@ -101,6 +105,7 @@ module "monitoring" {
   api_key = var.datadog_api_key
   app_key = var.datadog_app_key
 }
+*/
 
 # New Relic
 /*

@@ -14,9 +14,10 @@ provider "digitalocean" {
 
 # This has to come before the cluster creation
 resource "digitalocean_certificate" "cert" {
-  name = "cert-${var.group_id}"
+  count = var.num_clusters
+  name = "cert-${count.index + 1}"
   type = "lets_encrypt"
-  domains = ["group${var.group_id}.gremlinbootcamp.com"]
+  domains = ["group-${count.index + 1}.gremlinbootcamp.com"]
 
   lifecycle {
     create_before_destroy = true
@@ -24,25 +25,27 @@ resource "digitalocean_certificate" "cert" {
 }
 
 resource "digitalocean_kubernetes_cluster" "k8s_cluster" {
-  name  = "group-${var.group_id}"
+  count = var.num_clusters
+  name  = "group-${count.index + 1}"
   region = "sfo2"
   # Grab the latest version slug from `doctl kubernetes options versions`
   version = var.k8s_version
 
   node_pool {
-    name = "group-${var.group_id}"
+    name = "group-${count.index + 1}"
     size = var.node_size
     node_count = var.cluster_size
     auto_scale = true
     min_nodes = var.cluster_size
     max_nodes = var.cluster_max
-    tags = ["group-${var.group_id}"]
+    tags = ["group-${count.index + 1}"]
 
   }
 }
 
 resource "digitalocean_loadbalancer" "public" {
-  name = "group-${var.group_id}"
+  count = var.num_clusters
+  name = "group-${count.index + 1}"
   region = "sfo2"
 
   forwarding_rule {
@@ -50,7 +53,7 @@ resource "digitalocean_loadbalancer" "public" {
     entry_protocol = "tcp"
     target_port = 30001
     target_protocol = "tcp"
-    certificate_name = digitalocean_certificate.cert.name
+    certificate_name = digitalocean_certificate.cert[count.index].name
   }
 
   forwarding_rule {
@@ -58,7 +61,7 @@ resource "digitalocean_loadbalancer" "public" {
     entry_protocol = "https"
     target_port = 30001
     target_protocol = "http"
-    certificate_name = digitalocean_certificate.cert.name
+    certificate_name = digitalocean_certificate.cert[count.index].name
   }
 
   healthcheck {
@@ -67,12 +70,13 @@ resource "digitalocean_loadbalancer" "public" {
   }
 
   # Matches against tag set in k8s_cluster node_pool to apply to cluster nodes.
-  droplet_tag = "group-${var.group_id}"
+  droplet_tag = "group-${count.index + 1}"
 }
 
 resource "digitalocean_record" "subdomain" {
+  count = var.num_clusters
   domain = var.domain
   type = "A"
-  name = "group${var.group_id}"
-  value = digitalocean_loadbalancer.public.ip
+  name = "group-${count.index + 1}"
+  value = digitalocean_loadbalancer.public[count.index].ip
 }
