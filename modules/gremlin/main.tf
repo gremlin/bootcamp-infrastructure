@@ -1,4 +1,7 @@
 resource "helm_release" "gremlin" {
+  for_each = var.clusters
+  provider = ${"helm.cluster-"each.key}
+
   name  = "gremlin"
   chart = "gremlin/gremlin"
 
@@ -12,15 +15,15 @@ resource "helm_release" "gremlin" {
   }
   set {
     name  = "gremlin.secret.clusterID"
-    value = "group-${var.group_id}"
+    value = "group-${each.key}"
   }
   set {
     name  = "gremlin.secret.teamID"
-    value = var.team_id
+    value = var.team_ids[each.key]
   }
   set {
     name  = "gremlin.secret.teamSecret"
-    value = var.team_secret
+    value = var.team_secrets[each.key]
   }
   set {
     name = "gremlin.apparmor"

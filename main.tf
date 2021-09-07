@@ -44,18 +44,73 @@ provider "helm" {
     cluster_ca_certificate = base64decode(module.cloud.cluster_certificate)
   }
 }
+*/
+
+terraform {
+  required_providers {
+    helm = {
+      source = "hashicorp/helm"
+      version = "2.3.0"
+    }
+  }
+}
+
+provider "helm" {
+  alias = "cluster-1"
+  kubernetes {
+    host = try(module.cloud.clusters[0].endpoint, "")
+    token = try(module.cloud.clusters[0].kube_config[0].token, "")
+    cluster_ca_certificate = try(module.cloud.clusters[0].kube_config[0].cluster_ca_certificate, "")
+  }
+}
+
+provider "helm" {
+  alias = "cluster-2"
+  kubernetes {
+    host = try(module.cloud.clusters[1].endpoint, "")
+    token = try(module.cloud.clusters[1].kube_config[0].token, "")
+    cluster_ca_certificate = try(module.cloud.clusters[1].kube_config[0].cluster_ca_certificate, "")
+  }
+}
+
+provider "helm" {
+  alias = "cluster-3"
+  kubernetes {
+    host = try(module.cloud.clusters[2].endpoint, "")
+    token = try(module.cloud.clusters[2].kube_config[0].token, "")
+    cluster_ca_certificate = try(module.cloud.clusters[2].kube_config[0].cluster_ca_certificate, "")
+  }
+}
+
+provider "helm" {
+  alias = "cluster-4"
+  kubernetes {
+    host = try(module.cloud.clusters[3].endpoint, "")
+    token = try(module.cloud.clusters[3].kube_config[0].token, "")
+    cluster_ca_certificate = try(module.cloud.clusters[3].kube_config[0].cluster_ca_certificate, "")
+  }
+}
+
+provider "helm" {
+  alias = "cluster-5"
+  kubernetes {
+    host = try(module.cloud.clusters[4].endpoint, "")
+    token = try(module.cloud.clusters[4].kube_config[0].token, "")
+    cluster_ca_certificate = try(module.cloud.clusters[4].kube_config[0].cluster_ca_certificate, "")
+  }
+}
 
 # Gremlin
 module "gremlin" {
   source = "./modules/gremlin"
     
   # Pass variables
-  group_id = var.group_id
-  team_id = var.gremlin_team_id
-  team_secret = var.gremlin_team_secret
+  #num_clusters = length(module.cloud.clusters)
+  clusters = module.cloud.clusters
   container_runtime = module.cloud.container_runtime
+  team_ids = var.gremlin_team_ids
+  team_secrets = var.gremlin_team_secrets
 }
-*/
 
 
 ###
