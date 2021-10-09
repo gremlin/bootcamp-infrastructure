@@ -64,18 +64,26 @@ module "gremlin" {
 
 # Boutique Shop - Gremlin
 # This is a modified version of the Google Microservices Demo at https://github.com/GoogleCloudPlatform/microservices-demo
+# The modifications allow it to be installed on a smaller Kubernetes cluster.
 module "app" {
   source = "./modules/app/boutique_shop-gremlin"
 }
 
-# Boutique Shop
+# Boutique Shop - Standard install
+# This is the unmodified version of the Google Microservices Demo at https://github.com/GoogleCloudPlatform/microservices-demo
 /*
-Standard Boutique Shop install.
+module "app" {
+  source = "./modules/app/boutique_shop"
+}
 */
 
-# Bank of Anthos
+# Bank of Anthos - Standard install
+# This is the unmodified version of the Google Bank of Anthos demo at https://github.com/GoogleCloudPlatform/bank-of-anthos
+# The features to send metrics and traces to a Google Cloud account have been disabled.
 /*
-Bank of Anthos install.
+module "app" {
+  source = "./modules/app/bank_of_anthos"
+}
 */
 
 
