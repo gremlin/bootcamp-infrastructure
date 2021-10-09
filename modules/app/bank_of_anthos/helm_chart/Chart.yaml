@@ -1,6 +1,6 @@
 apiVersion: v2
 name: bank-of-anthos
-description: A Helm chart for Kubernetes
+description: The stock Google Cloud Bank of Anthos demo (cloud metrics and tracing disabled)
 
 # A chart can be either an 'application' or a 'library' chart.
 #
