@@ -36,8 +36,8 @@ variable "cluster_max" {
 
 variable "node_size" {
   type = string
-  description = "The node size slug. Node sizes can be retrieved with the Digital Ocean API: https://developers.digitalocean.com/documentation/v2/#sizes"
-  default = "s-1vcpu-2gb"
+  description = "The node size slug. Node sizes can be found by running: doctl compute size list"
+  default = "s-2vcpu-4gb"
 }
 
   # Grab the latest version slug from `doctl kubernetes options versions`
