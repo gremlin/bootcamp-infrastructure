@@ -1,6 +1,7 @@
 resource "helm_release" "gremlin" {
   name  = "gremlin"
-  chart = "gremlin/gremlin"
+  repository = "https://helm.gremlin.com/"
+  chart = "gremlin"
 
   set {
     name  = "gremlin.secret.managed"
