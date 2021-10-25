@@ -37,7 +37,7 @@ variable "cluster_max" {
 variable "node_size" {
   type = string
   description = "The node size slug. Node sizes can be retrieved with the Digital Ocean API: https://developers.digitalocean.com/documentation/v2/#sizes"
-  default = "s-1vcpu-2gb"
+  default = "s-2vcpu-4gb"
 }
 
   # Grab the latest version slug from `doctl kubernetes options versions`
@@ -45,7 +45,7 @@ variable "k8s_version" {
   type = string
   description = "The version of Kubernetes to use. To see available versions use the command: doctl kubernetes options versions"
   # Note that Kubernetes 1.20 and above use the containerd runtime. Set the runtime in outputs.tf
-  default = "1.20.9-do.0"
+  default = "1.20.11-do.0"
 }
 
 variable "domain" {
