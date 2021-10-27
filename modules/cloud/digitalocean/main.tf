@@ -48,7 +48,7 @@ resource "digitalocean_loadbalancer" "public" {
   forwarding_rule {
     entry_port = 80
     entry_protocol = "tcp"
-    target_port = 30001
+    target_port = 30080
     target_protocol = "tcp"
     certificate_name = digitalocean_certificate.cert.name
   }
@@ -56,13 +56,13 @@ resource "digitalocean_loadbalancer" "public" {
   forwarding_rule {
     entry_port = 443 
     entry_protocol = "https"
-    target_port = 30001
+    target_port = 30080
     target_protocol = "http"
     certificate_name = digitalocean_certificate.cert.name
   }
 
   healthcheck {
-    port = 30001
+    port = 30080
     protocol = "tcp"
   }
 
