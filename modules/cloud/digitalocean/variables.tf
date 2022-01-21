@@ -53,3 +53,9 @@ variable "domain" {
   description = "The primary domain for the demo application. Individual group IDs will be created as subdomains."
   default = "gremlinbootcamp.com"
 }
+
+variable "ssl" {
+  type = bool
+  description = "Enable or disable SSL encryption on the demo app. Enabling this will create an SSL certificate and a forwarding rule on the loadbalancer."
+  default = false
+}

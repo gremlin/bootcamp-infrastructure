@@ -13,15 +13,16 @@ provider "digitalocean" {
 }
 
 # This has to come before the cluster creation
-#resource "digitalocean_certificate" "cert" {
-#  name = "cert-${var.group_id}"
-#  type = "lets_encrypt"
-#  domains = ["group${var.group_id}.gremlinbootcamp.com"]
-#
-#  lifecycle {
-#    create_before_destroy = true
-#  }
-#}
+resource "digitalocean_certificate" "cert" {
+  count = var.ssl ? 1 : 0
+  name = "cert-${var.group_id}"
+  type = "lets_encrypt"
+  domains = ["group${var.group_id}.gremlinbootcamp.com"]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
 
 resource "digitalocean_kubernetes_cluster" "k8s_cluster" {
   name  = "group-${var.group_id}"
@@ -50,16 +51,19 @@ resource "digitalocean_loadbalancer" "public" {
     entry_protocol = "tcp"
     target_port = 30080
     target_protocol = "tcp"
-#    certificate_name = digitalocean_certificate.cert.name
+    certificate_name = var.ssl ? digitalocean_certificate.cert.name : ""
   }
 
-#  forwarding_rule {
-#    entry_port = 443
-#    entry_protocol = "https"
-#    target_port = 30080
-#    target_protocol = "http"
-#    certificate_name = digitalocean_certificate.cert.name
-#  }
+  dynamic "forwarding_rule" {
+    for_each = var.ssl ? [1] : []
+      content {
+      entry_port = 443
+      entry_protocol = "https"
+      target_port = 30080
+      target_protocol = "http"
+      certificate_name = digitalocean_certificate.cert.name
+    }
+  }
 
   healthcheck {
     port = 30080
