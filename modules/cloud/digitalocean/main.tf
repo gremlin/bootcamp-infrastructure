@@ -51,7 +51,6 @@ resource "digitalocean_loadbalancer" "public" {
     entry_protocol = "tcp"
     target_port = 30080
     target_protocol = "tcp"
-    certificate_name = var.ssl ? digitalocean_certificate.cert[0].name : ""
   }
 
   dynamic "forwarding_rule" {
