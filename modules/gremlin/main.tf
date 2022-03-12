@@ -1,7 +1,7 @@
 resource "helm_release" "gremlin" {
-  name  = "gremlin"
+  name       = "gremlin"
   repository = "https://helm.gremlin.com/"
-  chart = "gremlin"
+  chart      = "gremlin"
 
   set {
     name  = "gremlin.secret.managed"
@@ -24,19 +24,19 @@ resource "helm_release" "gremlin" {
     value = var.team_secret
   }
   set {
-    name = "gremlin.apparmor"
+    name  = "gremlin.apparmor"
     value = "unconfined"
   }
   set {
-    name = "gremlin.hostPID"
+    name  = "gremlin.hostPID"
     value = "true"
   }
+  // set {
+  //   name = "gremlin.container.driver"
+  //   value = var.container_runtime
+  // }
   set {
-    name = "gremlin.container.driver"
-    value = var.container_runtime
-  }
-  set {
-    name = "gremlin.collect.processes"
+    name  = "gremlin.collect.processes"
     value = "true"
   }
 }

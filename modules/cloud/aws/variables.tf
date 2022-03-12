@@ -46,8 +46,8 @@ variable "k8s_version_do" {
   # Note that Kubernetes 1.20 and above use the containerd runtime. Set the runtime in outputs.tf
   default = "1.21.9-do.0"
 }
-// variable "k8s_version_aws" {
-//   type        = string
-//   description = "The version of Kubernetes to use. To see available versions visit: https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
-//   default     = "1.20.7"
-// }
+variable "k8s_version_aws" {
+  type        = string
+  description = "The version of Kubernetes to use. To see available versions visit: https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html (pass minor version, 1.21 not 1.21.1.0)"
+  default     = "1.21"
+}

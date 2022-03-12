@@ -12,3 +12,8 @@ output "cluster_id" {
   value       = module.eks.cluster_id
 }
 
+
+output "cluster_token" {
+  description = "kubeconfig"
+  value       = data.aws_eks_cluster_auth.cluster.token
+}
