@@ -31,10 +31,10 @@ resource "helm_release" "gremlin" {
     name  = "gremlin.hostPID"
     value = "true"
   }
-  // set {
-  //   name = "gremlin.container.driver"
-  //   value = var.container_runtime
-  // }
+  set {
+    name  = "gremlin.container.driver"
+    value = var.container_runtime
+  }
   set {
     name  = "gremlin.collect.processes"
     value = "true"

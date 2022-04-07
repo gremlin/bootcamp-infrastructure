@@ -42,7 +42,7 @@ variable "subnet_az" {
 
 variable "k8s_version_do" {
   type        = string
-  description = "The version of Kubernetes to use. To see available versions use the command: doctl kubernetes options versions"
+  description = "The version of Kubernetes to use. To see available versions visit: https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
   # Note that Kubernetes 1.20 and above use the containerd runtime. Set the runtime in outputs.tf
   default = "1.21.9-do.0"
 }

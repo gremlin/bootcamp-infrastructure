@@ -12,11 +12,11 @@
 // }
 
 # Set the value for the container runtime driver that Gremlin should use.
-// output "container_runtime" {
-//   value = "containerd-runc"
-//   #value = "crio-runc"
-//   #value = "docker-runc"
-// }
+output "container_runtime" {
+  value = "containerd-runc"
+  //   #value = "crio-runc"
+  //   #value = "docker-runc"
+}
 
 
 # AWS

@@ -17,3 +17,10 @@ output "cluster_token" {
   description = "kubeconfig"
   value       = data.aws_eks_cluster_auth.cluster.token
 }
+
+# Set the value for the container runtime driver that Gremlin should use.
+output "container_runtime" {
+  value = "containerd-runc"
+  //   #value = "crio-runc"
+  //   #value = "docker-runc"
+}

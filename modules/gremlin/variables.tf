@@ -31,7 +31,7 @@ variable "team_secret" {
   }
 }
 
-// variable "container_runtime" {
-//   type = string
-//   description = "The container runtime that Gremlin should use (docker-runc, crio-runc, containerd-runc)."
-// }
+variable "container_runtime" {
+  type        = string
+  description = "The container runtime that Gremlin should use (docker-runc, crio-runc, containerd-runc)."
+}

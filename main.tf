@@ -57,10 +57,10 @@ module "gremlin" {
   source = "./modules/gremlin"
 
   # Pass variables
-  group_id    = var.group_id
-  team_id     = var.gremlin_teams[var.group_id].id
-  team_secret = var.gremlin_teams[var.group_id].secret
-  // container_runtime = module.cloud.container_runtime
+  group_id          = var.group_id
+  team_id           = var.gremlin_teams[var.group_id].id
+  team_secret       = var.gremlin_teams[var.group_id].secret
+  container_runtime = module.cloud.container_runtime
 }
 
 
