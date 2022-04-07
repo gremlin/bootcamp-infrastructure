@@ -5,6 +5,11 @@
 # Terraform state and files
 terraform.tfstate*
 .terraform*
+tfplan
 
 # Variable files
 *.tfvars*
+*.txt
+
+# AWS files
+modules/cloud/aws/awscli-bundle/*
