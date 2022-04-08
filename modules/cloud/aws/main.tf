@@ -12,7 +12,7 @@ module "eks" {
   // cluster_encryption_config = [{
   //   provider_key_arn = "ac01234b-00d9-40f6-ac95-e42345f78b00"
   //   resources        = ["secrets"]
-   }]
+  #  }]
 
   eks_managed_node_groups = {
     # Default node group - as provided by AWS EKS
@@ -25,8 +25,8 @@ module "eks" {
       max_size               = var.cluster_max_size
       instance_type          = var.cluster_instance_type
     }
-
   }
+}
 
 
 # Adds kubeconfig to support terraform 18.0 changes
