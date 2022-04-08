@@ -16,11 +16,12 @@
 //   token    = var.digitalocean_token
 // }
 
-# AWS EKS
-provider "aws" {
-  alias  = "west"
-  region = "us-west-2"
-}
+# # AWS EKS
+# I believe this is not needed, since it's defined in AWS Module variables
+# provider "aws" {
+#   alias  = "west"
+#   region = "us-west-2"
+# }
 
 module "cloud" {
   source = "./modules/cloud/aws"
