@@ -21,9 +21,12 @@ module "eks" {
       # so we need to disable it to use the default template provided by the AWS EKS managed node group service
       create_launch_template = false
       launch_template_name   = ""
-      asg_desired_capacity   = var.cluster_asg_desired_capacity
-      asg_max_size           = var.cluster_asg_max_size
-      instance_type          = var.cluster_instance_type
+      # asg_desired_capacity   = var.cluster_asg_desired_capacity
+      # asg_max_size           = var.cluster_asg_max_size
+      instance_type = var.cluster_instance_type
+      # trying new way
+      desired_size = 2
+      max_size     = 4
     }
 
   }
