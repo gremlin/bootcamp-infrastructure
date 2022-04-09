@@ -3,23 +3,31 @@
 # Uncomment the cloud provider that you want to use.
 ###
 
-# DigitalOcean
-variable "digitalocean_token" {
-  type = string
-  description = "Your DigitalOcean API token. See https://cloud.digitalocean.com/account/api/tokens to generate a token."
-}
-module "cloud" {
-  source = "./modules/cloud/digitalocean"
+// # DigitalOcean
+// variable "digitalocean_token" {
+//   type        = string
+//   description = "Your DigitalOcean API token. See https://cloud.digitalocean.com/account/api/tokens to generate a token."
+// }
+// module "cloud" {
+//   source = "./modules/cloud/digitalocean"
 
+//   # Pass variables
+//   group_id = var.group_id
+//   token    = var.digitalocean_token
+// }
+
+# # AWS EKS
+# I believe this is not needed, since it's defined in AWS Module variables
+# provider "aws" {
+#   alias  = "west"
+#   region = "us-west-2"
+# }
+
+module "cloud" {
+  source = "./modules/cloud/aws"
   # Pass variables
   group_id = var.group_id
-  token = var.digitalocean_token 
 }
-
-# AWS EKS
-/*
-EKS specific variables and the EKS module call will go here.
-*/
 
 # Azure AKS
 /*
@@ -39,8 +47,8 @@ GKS specific variables and the GKS module call will go here.
 # Setup the Helm Provider here so that subsequent modules don't need to reinstantiate it.
 provider "helm" {
   kubernetes {
-    host = module.cloud.cluster_endpoint
-    token = module.cloud.cluster_token
+    host                   = module.cloud.cluster_endpoint
+    token                  = module.cloud.cluster_token
     cluster_ca_certificate = base64decode(module.cloud.cluster_certificate)
   }
 }
@@ -48,11 +56,11 @@ provider "helm" {
 # Gremlin
 module "gremlin" {
   source = "./modules/gremlin"
-    
+
   # Pass variables
-  group_id = var.group_id
-  team_id = var.gremlin_teams[var.group_id].id
-  team_secret = var.gremlin_teams[var.group_id].secret
+  group_id          = var.group_id
+  team_id           = var.gremlin_teams[var.group_id].id
+  team_secret       = var.gremlin_teams[var.group_id].secret
   container_runtime = module.cloud.container_runtime
 }
 
@@ -103,12 +111,12 @@ variable "datadog_app_key" {
 }
 module "monitoring" {
   source = "./modules/monitoring/datadog"
-    
+
   # Pass variables
   group_id = var.group_id
-  api_key = var.datadog_api_key
-  app_key = var.datadog_app_key
-  app = module.app.app
+  api_key  = var.datadog_api_key
+  app_key  = var.datadog_app_key
+  app      = module.app.app
 }
 
 # New Relic
