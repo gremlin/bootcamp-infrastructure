@@ -8,12 +8,17 @@ variable "digitalocean_token" {
   type = string
   description = "Your DigitalOcean API token. See https://cloud.digitalocean.com/account/api/tokens to generate a token."
 }
+variable "digitalocean_slug" {
+  type = string
+  description = "The version of Kubernetes to use. To see available versions use the command: doctl kubernetes options versions"
+}
 module "cloud" {
   source = "./modules/cloud/digitalocean"
 
   # Pass variables
   group_id = var.group_id
   token = var.digitalocean_token 
+  k8s_version = var.digitalocean_slug
 }
 
 # AWS EKS
