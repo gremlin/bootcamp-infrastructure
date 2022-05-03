@@ -17,7 +17,7 @@ module "cloud" {
 
   # Pass variables
   group_id = var.group_id
-  token = var.digitalocean_token 
+  token = var.digitalocean_token
   k8s_version = var.digitalocean_slug
 }
 
@@ -53,7 +53,7 @@ provider "helm" {
 # Gremlin
 module "gremlin" {
   source = "./modules/gremlin"
-    
+
   # Pass variables
   group_id = var.group_id
   team_id = var.gremlin_teams[var.group_id].id
@@ -97,7 +97,18 @@ module "app" {
 # Uncommment the monitoring provider that you want to use.
 ###
 
+# Prometheus and Grafana
+module "monitoring" {
+  source = "./modules/monitoring/prometheus_grafana"
+
+  # Pass variables
+  group_id = var.group_id
+  app = module.app.app
+}
+
+
 # Datadog
+/*
 variable "datadog_api_key" {
   type        = string
   description = "The Datadog API Key. See https://app.datadoghq.com/account/settings#api to get or create an API Key."
@@ -108,13 +119,14 @@ variable "datadog_app_key" {
 }
 module "monitoring" {
   source = "./modules/monitoring/datadog"
-    
+
   # Pass variables
   group_id = var.group_id
   api_key = var.datadog_api_key
   app_key = var.datadog_app_key
   app = module.app.app
 }
+*/
 
 # New Relic
 /*
