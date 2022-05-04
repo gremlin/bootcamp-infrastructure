@@ -5,7 +5,7 @@ resource "helm_release" "prometheus_helm" {
   chart      = "prometheus-community/kube-prometheus-stack"
 
   values = [
-    "${replace(file("${path.module}/${var.app}/values.yaml"), \"[[GROUP_ID]]\", "${var.group_id}")}"
+    "${replace(file("${path.module}/${var.app}/values.yaml"), "[[GROUP_ID]]", "${var.group_id}")}"
   ]
 
 }
