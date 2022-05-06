@@ -46,6 +46,7 @@ resource "digitalocean_loadbalancer" "public" {
   name = "group-${var.group_id}"
   region = "sfo2"
 
+  # Forward std web traffic to the demo ap
   forwarding_rule {
     entry_port = 80
     entry_protocol = "tcp"
@@ -53,6 +54,15 @@ resource "digitalocean_loadbalancer" "public" {
     target_protocol = "tcp"
   }
 
+  # Forward port 8080 to Grafana
+  forwarding_rule {
+    entry_port = 8080
+    entry_protocol = "tcp"
+    target_port = 3000
+    target_protocol = "tcp"
+  }
+
+  # Setup HTTPS/TLS if enabled
   dynamic "forwarding_rule" {
     for_each = var.ssl ? [1] : []
       content {
