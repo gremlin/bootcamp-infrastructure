@@ -9,3 +9,5 @@ grafana:
     hosts:
       - "group[[GROUP_ID]].gremlinbootcamp.com"
     path: "/grafana"
+alertmanager:
+  enabled: false
