@@ -55,10 +55,11 @@ resource "digitalocean_loadbalancer" "public" {
   }
 
   # Forward port 8080 to Grafana
+  # If you're not using Grafana for monitoring, this will just point nowhere
   forwarding_rule {
-    entry_port = 8080
+    entry_port = 81
     entry_protocol = "tcp"
-    target_port = 3000
+    target_port = 30081
     target_protocol = "tcp"
   }
 

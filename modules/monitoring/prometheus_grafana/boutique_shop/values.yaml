@@ -1,13 +1,16 @@
 grafana:
+  adminPassword: ChaosEngineering!
   grafana.ini:
     server:
       domain: group[[GROUP_ID]].gremlinbootcamp.com
-      root_url: "%(protocol)s://%(domain)s/grafana"
+      root_url: "%(protocol)s://%(domain)s/"
       serve_from_sub_path: true
-  ingress:
-    enabled: true
-    hosts:
-      - "group[[GROUP_ID]].gremlinbootcamp.com"
-    path: "/grafana"
+  service:
+    type: NodePort
+    port: 81
+    targetPort: 3000
+    nodePort: 30081
+
+# Don't need alerting.
 alertmanager:
   enabled: false
