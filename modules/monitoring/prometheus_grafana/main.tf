@@ -16,6 +16,15 @@ resource "helm_release" "prometheus_helm" {
   values = [ "${local.helm_values}" ]
 }
 
+# Install the Grafana dashboards.
+terraform {
+  required_providers {
+    grafana = {
+      source = "grafana/grafana"
+    }
+  }
+}
+
 provider "grafana" {
   url = "http://group${var.group_id}.gremlinbootcamp.com:81"
   auth = "admin:${var.admin_password}"
