@@ -7,3 +7,9 @@ variable "app" {
   type = string
   description = "The demo app that was deployed. This will be used to select the correct dashboard and monitoring configuration."
 }
+
+variable "admin_password" {
+  type = string
+  description = "The admin password to log into Grafana. Note that the username is 'admin'."
+  default = "Chaos!"
+}
