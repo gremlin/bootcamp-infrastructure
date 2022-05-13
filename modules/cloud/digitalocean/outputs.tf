@@ -10,6 +10,10 @@ output "cluster_certificate" {
   value = digitalocean_kubernetes_cluster.k8s_cluster.kube_config[0].cluster_ca_certificate
 }
 
+output "loadbalancer_ip" {
+  value = digitalocean_loadbalancer.public.ip
+}
+
 # Set the value for the container runtime driver that Gremlin should use.
 output "container_runtime" {
   value = "containerd-runc"

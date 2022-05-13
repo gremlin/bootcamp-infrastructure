@@ -28,7 +28,7 @@ terraform {
 }
 
 provider "grafana" {
-  url = "http://group${var.group_id}.gremlinbootcamp.com:81"
+  url = "http://${var.ip}:81"
   auth = "admin:${var.admin_password}"
 }
 

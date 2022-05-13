@@ -104,6 +104,7 @@ module "monitoring" {
   # Pass variables
   group_id = var.group_id
   app = module.app.app
+  ip = module.cloud.loadbalancer_ip
 }
 
 
