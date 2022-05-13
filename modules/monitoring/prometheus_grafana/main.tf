@@ -9,9 +9,11 @@ locals {
 
 # Install Prometheus using the helm chart
 resource "helm_release" "prometheus_helm" {
-  name       = "prometheus"
+  name = "prometheus"
   repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "kube-prometheus-stack"
+  chart = "kube-prometheus-stack"
+  namespace = "monitoring"
+  create_namespace = true
 
   values = [ "${local.helm_values}" ]
 }
@@ -28,4 +30,9 @@ terraform {
 provider "grafana" {
   url = "http://group${var.group_id}.gremlinbootcamp.com:81"
   auth = "admin:${var.admin_password}"
+}
+
+resource "grafana_dashboard" "dashboard" {
+  config_json = file("${path.module}/${var.app}/dashboard.json")
+  overwrite = true
 }
