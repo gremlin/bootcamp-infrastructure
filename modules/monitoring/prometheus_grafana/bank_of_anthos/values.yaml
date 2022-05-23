@@ -1,0 +1,21 @@
+grafana:
+  # Set the login password for Grafana. Username is always "admin".
+  adminPassword: ${admin_password}
+
+  # Set the location of Grafana to the same URL as the demo app.
+  grafana.ini:
+    server:
+      domain: group${group_id}.gremlinbootcamp.com
+      root_url: "%(protocol)s://%(domain)s/"
+      serve_from_sub_path: true
+
+  # Set the port to be accessible externally on port 81.
+  service:
+    type: NodePort
+    port: 81
+    targetPort: 3000
+    nodePort: 30081
+
+# Don't need alerting.
+alertmanager:
+  enabled: false
