@@ -98,7 +98,6 @@ module "app" {
 ###
 
 # Prometheus and Grafana
-/*
 module "monitoring" {
   source = "./modules/monitoring/prometheus_grafana"
 
@@ -107,7 +106,6 @@ module "monitoring" {
   app = module.app.app
   ip = module.cloud.loadbalancer_ip
 }
-*/
 
 
 # Datadog
