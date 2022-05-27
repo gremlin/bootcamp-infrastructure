@@ -70,9 +70,11 @@ module "gremlin" {
 # Boutique Shop - Gremlin
 # This is a modified version of the Google Microservices Demo at https://github.com/GoogleCloudPlatform/microservices-demo
 # The modifications allow it to be installed on a smaller Kubernetes cluster.
+/*
 module "app" {
   source = "./modules/app/boutique_shop-gremlin"
 }
+*/
 
 # Boutique Shop - Standard install
 # This is the unmodified version of the Google Microservices Demo at https://github.com/GoogleCloudPlatform/microservices-demo
@@ -85,11 +87,9 @@ module "app" {
 # Bank of Anthos - Standard install
 # This is the unmodified version of the Google Bank of Anthos demo at https://github.com/GoogleCloudPlatform/bank-of-anthos
 # The features to send metrics and traces to a Google Cloud account have been disabled.
-/*
 module "app" {
   source = "./modules/app/bank_of_anthos"
 }
-*/
 
 
 ###
@@ -111,7 +111,6 @@ module "monitoring" {
 
 
 # Datadog
-/*
 variable "datadog_api_key" {
   type        = string
   description = "The Datadog API Key. See https://app.datadoghq.com/account/settings#api to get or create an API Key."
@@ -129,7 +128,6 @@ module "monitoring" {
   app_key = var.datadog_app_key
   app = module.app.app
 }
-*/
 
 # New Relic
 /*
