@@ -19,6 +19,7 @@ module "cloud" {
   group_id = var.group_id
   token = var.digitalocean_token
   k8s_version = var.digitalocean_slug
+  ssl = true
 }
 
 # AWS EKS
@@ -111,7 +112,6 @@ module "monitoring" {
 
 
 # Datadog
-/*
 variable "datadog_api_key" {
   type        = string
   description = "The Datadog API Key. See https://app.datadoghq.com/account/settings#api to get or create an API Key."
@@ -129,7 +129,6 @@ module "monitoring" {
   app_key = var.datadog_app_key
   app = module.app.app
 }
-*/
 
 # New Relic
 /*
