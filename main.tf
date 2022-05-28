@@ -19,6 +19,7 @@ module "cloud" {
   group_id = var.group_id
   token = var.digitalocean_token
   k8s_version = var.digitalocean_slug
+  node_size = "s-2vcpu-4gb"
 }
 
 # AWS EKS
