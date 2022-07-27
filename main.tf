@@ -12,6 +12,11 @@ terraform {
   }
 }
 
+# Configure the DigitalOcean Provider
+provider "digitalocean" {
+  token = var.digitalocean_token
+}
+
 # DigitalOcean
 variable "digitalocean_token" {
   type = string
