@@ -19,3 +19,15 @@ variable "app" {
   type = string
   description = "The demo app that was deployed. This will be used to select the correct dashboard and monitoring configuration."
 }
+
+variable "helm_host" {
+    type = string
+}
+
+variable "helm_token" {
+    type = string
+}
+
+variable "helm_cluster_ca_certificate" {
+    type = string
+}

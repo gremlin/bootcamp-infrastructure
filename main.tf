@@ -60,6 +60,10 @@ module "gremlin" {
   team_id = var.gremlin_teams[var.group_id].id
   team_secret = var.gremlin_teams[var.group_id].secret
   container_runtime = module.cloud.container_runtime
+
+  helm_host = module.cloud.cluster_endpoint
+  helm_token = module.cloud.cluster_token
+  helm_cluster_ca_certificate = base64decode(module.cloud.cluster_certificate)
 }
 
 
@@ -132,6 +136,10 @@ module "monitoring" {
   api_key = var.datadog_api_key
   app_key = var.datadog_app_key
   app = module.app.app
+
+  helm_host = module.cloud.cluster_endpoint
+  helm_token = module.cloud.cluster_token
+  helm_cluster_ca_certificate = base64decode(module.cloud.cluster_certificate)
 }
 
 # New Relic

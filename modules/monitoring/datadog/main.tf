@@ -25,6 +25,9 @@ terraform {
     datadog = {
       source = "DataDog/datadog"
     }
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+    }
   }
 }
 
@@ -32,6 +35,14 @@ terraform {
 provider "datadog" {
   api_key = var.api_key
   app_key = var.app_key
+}
+
+provider "helm" {
+  kubernetes {
+    host = var.helm_host
+    token = var.helm_token
+    cluster_ca_certificate = var.helm_cluster_ca_certificate
+  }
 }
 
 # Get the "Bootcamps" dashboard list

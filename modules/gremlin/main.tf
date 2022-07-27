@@ -1,3 +1,20 @@
+# Install the Datadog dashboard.
+terraform {
+  required_providers {
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+    }
+  }
+}
+
+provider "helm" {
+  kubernetes {
+    host = var.helm_host
+    token = var.helm_token
+    cluster_ca_certificate = var.helm_cluster_ca_certificate
+  }
+}
+
 resource "helm_release" "gremlin" {
   name  = "gremlin"
   repository = "https://helm.gremlin.com/"
