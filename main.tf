@@ -43,13 +43,13 @@ GKS specific variables and the GKS module call will go here.
 ###
 
 # Setup the Helm Provider here so that subsequent modules don't need to reinstantiate it.
-provider "helm" {
-  kubernetes {
-    host = module.cloud.cluster_endpoint
-    token = module.cloud.cluster_token
-    cluster_ca_certificate = base64decode(module.cloud.cluster_certificate)
-  }
-}
+#provider "helm" {
+#  kubernetes {
+#    host = module.cloud.cluster_endpoint
+#    token = module.cloud.cluster_token
+#    cluster_ca_certificate = base64decode(module.cloud.cluster_certificate)
+#  }
+#}
 
 # Gremlin
 module "gremlin" {
@@ -90,6 +90,10 @@ module "app" {
 # The features to send metrics and traces to a Google Cloud account have been disabled.
 module "app" {
   source = "./modules/app/bank_of_anthos"
+
+  helm_host = module.cloud.cluster_endpoint
+  helm_token = module.cloud.cluster_token
+  helm_cluster_ca_certificate = base64decode(module.cloud.cluster_certificate)
 }
 
 
