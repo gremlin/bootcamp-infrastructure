@@ -3,6 +3,20 @@
 # Uncomment the cloud provider that you want to use.
 ###
 
+terraform {
+  required_providers {
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+      version = "~> 2.0"
+    }
+  }
+}
+
+# Configure the DigitalOcean Provider
+provider "digitalocean" {
+  token = var.digitalocean_token
+}
+
 # DigitalOcean
 variable "digitalocean_token" {
   type = string
@@ -41,12 +55,20 @@ GKS specific variables and the GKS module call will go here.
 # Helm setup and Gremlin Installation
 ###
 
+data "digitalocean_kubernetes_cluster" "k8s_cluster" {
+  name = "group-${var.group_id}"
+
+  depends_on = [
+    module.cloud
+  ]
+}
+
 # Setup the Helm Provider here so that subsequent modules don't need to reinstantiate it.
 provider "helm" {
   kubernetes {
-    host = module.cloud.cluster_endpoint
-    token = module.cloud.cluster_token
-    cluster_ca_certificate = base64decode(module.cloud.cluster_certificate)
+    host = data.digitalocean_kubernetes_cluster.k8s_cluster.endpoint
+    token = data.digitalocean_kubernetes_cluster.k8s_cluster.kube_config[0].token
+    cluster_ca_certificate = base64decode(data.digitalocean_kubernetes_cluster.k8s_cluster.kube_config[0].cluster_ca_certificate)
   }
 }
 
