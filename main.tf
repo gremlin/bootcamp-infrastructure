@@ -3,6 +3,15 @@
 # Uncomment the cloud provider that you want to use.
 ###
 
+terraform {
+  required_providers {
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+      version = "~> 2.0"
+    }
+  }
+}
+
 # DigitalOcean
 variable "digitalocean_token" {
   type = string
