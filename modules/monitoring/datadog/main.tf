@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    datadog = {
+      source = "DataDog/datadog"
+    }
+  }
+}
+
 # Install the Datadog Agent using the helm chart
 resource "helm_release" "datadog_helm" {
   name       = "datadog"
@@ -19,20 +27,6 @@ resource "helm_release" "datadog_helm" {
   }
 }
 
-# Install the Datadog dashboard.
-terraform {
-  required_providers {
-    datadog = {
-      source = "DataDog/datadog"
-    }
-  }
-}
-
-# Configure the Datadog provider
-provider "datadog" {
-  api_key = var.api_key
-  app_key = var.app_key
-}
 
 # Get the "Bootcamps" dashboard list
 data "datadog_dashboard_list" "bootcamps_list" {

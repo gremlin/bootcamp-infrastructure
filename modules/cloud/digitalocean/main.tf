@@ -7,10 +7,6 @@ terraform {
   }
 }
 
-# Configure the DigitalOcean Provider
-provider "digitalocean" {
-  token = var.token
-}
 
 # This has to come before the cluster creation
 resource "digitalocean_certificate" "cert" {
