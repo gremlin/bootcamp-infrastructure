@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# [START gke_boa_kubernetes_manifests_ledger_writer_deployment_ledgerwriter]
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,14 +30,14 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: ledgerwriter
-        image: gcr.io/bank-of-anthos/ledgerwriter:v0.5.0
+        image: gcr.io/bank-of-anthos-ci/ledgerwriter:v0.5.5
         volumeMounts:
         - name: publickey
           mountPath: "/root/.ssh"
           readOnly: true
         env:
         - name: VERSION
-          value: "v0.5.0"
+          value: "v0.5.5"
         - name: PORT
           value: "8080"
         - name: ENABLE_TRACING
@@ -45,7 +46,7 @@ spec:
           value: "false"
          # tell Java to obey container memory limits
         - name: JVM_OPTS
-          value: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+          value: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Xms256m -Xmx512m"
         # service level override of log level
         - name: LOG_LEVEL
           value: "info"
@@ -64,10 +65,10 @@ spec:
         resources:
           requests:
             cpu: 100m
-            memory: 512Mi
+            memory: 256Mi
           limits:
             cpu: 500m
-            memory: 1Gi
+            memory: 512Mi
         readinessProbe:
           httpGet:
             path: /ready
@@ -75,6 +76,12 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 5
           timeoutSeconds: 10
+        startupProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          failureThreshold: 30
+          periodSeconds: 10
       volumes:
       - name: publickey
         secret:
@@ -82,7 +89,9 @@ spec:
           items:
           - key: jwtRS256.key.pub
             path: publickey
+# [END gke_boa_kubernetes_manifests_ledger_writer_deployment_ledgerwriter]
 ---
+# [START gke_boa_kubernetes_manifests_ledger_writer_service_ledgerwriter]
 apiVersion: v1
 kind: Service
 metadata:
@@ -95,3 +104,4 @@ spec:
   - name: http
     port: 8080
     targetPort: 8080
+# [END gke_boa_kubernetes_manifests_ledger_writer_service_ledgerwriter]

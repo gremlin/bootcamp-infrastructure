@@ -82,7 +82,7 @@ data "digitalocean_kubernetes_cluster" "k8s_cluster" {
   name = "group-${var.group_id}"
 
   depends_on = [
-    module.digitalocean
+    module.digitalocean[0]
   ]
 }
 
