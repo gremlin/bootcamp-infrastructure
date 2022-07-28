@@ -46,6 +46,13 @@ data "digitalocean_kubernetes_versions" "version" {
 #  k8s_version = data.digitalocean_kubernetes_versions.version.latest_version
 #}
 
+locals {
+  node_size_by_app = {
+    bank_of_anthos = "s-2vcpu-4gb",
+    boutique_shop = "s-1vcpu-2gb"
+  }
+}
+
 module "digitalocean" {
   count = var.k8s_platform == "digitalocean" ? 1 : 0
   source = "./modules/cloud/digitalocean"
@@ -54,6 +61,7 @@ module "digitalocean" {
   group_id = var.group_id
   token = var.digitalocean_token
   k8s_version = data.digitalocean_kubernetes_versions.version.latest_version
+  node_size = local.node_size_by_app[var.demo_app]
 }
 
 
