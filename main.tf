@@ -26,25 +26,9 @@ variable "digitalocean_token" {
   description = "Your DigitalOcean API token. See https://cloud.digitalocean.com/account/api/tokens to generate a token."
 }
 
-// No longer necessary because of data provider.
-#variable "digitalocean_slug" {
-#  type = string
-#  description = "The version of Kubernetes to use. To see available versions use the command: doctl kubernetes options versions"
-#}
-
 data "digitalocean_kubernetes_versions" "version" {
   version_prefix = "1.21."
 }
-
-// Renaming for flexibility
-#module "cloud" {
-#  source = "./modules/cloud/digitalocean"
-#
-#  # Pass variables
-#  group_id = var.group_id
-#  token = var.digitalocean_token
-#  k8s_version = data.digitalocean_kubernetes_versions.version.latest_version
-#}
 
 locals {
   node_size_by_app = {
@@ -93,6 +77,10 @@ data "digitalocean_kubernetes_cluster" "k8s_cluster" {
     module.digitalocean[0]
   ]
 }
+
+// TODO: If we add a different provider, we'll need to perform logic in order to
+  // properly populate the k8s config for helm based on the appropriate module source.
+  // I THINK we can make this work with lookup. Otherwise it's gonna be ugly.
 
 # Setup the Helm Provider here so that subsequent modules don't need to reinstantiate it.
 provider "helm" {
@@ -158,7 +146,6 @@ variable "datadog_app_key" {
   type        = string
   description = "The Datadog Application Key. See https://app.datadoghq.com/account/settings#api to get or create an Application Key."
 }
-
 
 # Configure the Datadog provider
 provider "datadog" {
