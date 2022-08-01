@@ -8,3 +8,10 @@ terraform.tfstate*
 
 # Variable files
 *.tfvars*
+
+# Plan files
+build_plan
+*plan*
+
+# Local Makefiles
+Makefile
