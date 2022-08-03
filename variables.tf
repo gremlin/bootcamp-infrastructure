@@ -23,7 +23,6 @@ variable "gremlin_teams" {
 
 variable "k8s_platform" {
   type = string
-  default = "digitalocean"
   validation {
     condition = contains(["digitalocean"],var.k8s_platform)
     error_message = "Invalid monitoring platform selected. Valid options are: digitalocean."
@@ -32,7 +31,6 @@ variable "k8s_platform" {
 
 variable "monitoring_platform" {
   type = string
-  default = "datadog"
   validation {
     condition = contains(["datadog"],var.monitoring_platform)
     error_message = "Invalid monitoring platform selected. Valid options are: datadog."
@@ -41,7 +39,6 @@ variable "monitoring_platform" {
 
 variable "demo_app" {
   type = string
-  default = "boutique_shop"
   validation {
     condition = contains(["boutique_shop","bank_of_anthos"],var.demo_app)
     error_message = "Invalid demo app selected. Valid options are: boutique_shop, bank_of_anthos."
