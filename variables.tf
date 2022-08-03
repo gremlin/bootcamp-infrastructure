@@ -20,3 +20,27 @@ variable "gremlin_teams" {
   )
   description = "A map of group objects containing the coresponding Gremlin team id and secret."
 }
+
+variable "k8s_platform" {
+  type = string
+  validation {
+    condition = contains(["digitalocean"],var.k8s_platform)
+    error_message = "Invalid monitoring platform selected. Valid options are: digitalocean."
+  }
+}
+
+variable "monitoring_platform" {
+  type = string
+  validation {
+    condition = contains(["datadog"],var.monitoring_platform)
+    error_message = "Invalid monitoring platform selected. Valid options are: datadog."
+  }
+}
+
+variable "demo_app" {
+  type = string
+  validation {
+    condition = contains(["boutique_shop","bank_of_anthos"],var.demo_app)
+    error_message = "Invalid demo app selected. Valid options are: boutique_shop, bank_of_anthos."
+  }
+}

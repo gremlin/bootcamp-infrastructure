@@ -3,23 +3,51 @@
 # Uncomment the cloud provider that you want to use.
 ###
 
+terraform {
+  required_providers {
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+      version = "~> 2.0"
+    }
+    datadog = {
+      source = "DataDog/datadog"
+    }
+  }
+}
+
+# Configure the DigitalOcean Provider
+provider "digitalocean" {
+  token = var.digitalocean_token
+}
+
 # DigitalOcean
 variable "digitalocean_token" {
   type = string
   description = "Your DigitalOcean API token. See https://cloud.digitalocean.com/account/api/tokens to generate a token."
 }
-variable "digitalocean_slug" {
-  type = string
-  description = "The version of Kubernetes to use. To see available versions use the command: doctl kubernetes options versions"
+
+data "digitalocean_kubernetes_versions" "version" {
+  version_prefix = "1.21."
 }
-module "cloud" {
+
+locals {
+  node_size_by_app = {
+    bank_of_anthos = "s-2vcpu-4gb",
+    boutique_shop = "s-1vcpu-2gb"
+  }
+}
+
+module "digitalocean" {
+  count = var.k8s_platform == "digitalocean" ? 1 : 0
   source = "./modules/cloud/digitalocean"
 
   # Pass variables
   group_id = var.group_id
   token = var.digitalocean_token
-  k8s_version = var.digitalocean_slug
+  k8s_version = data.digitalocean_kubernetes_versions.version.latest_version
+  node_size = local.node_size_by_app[var.demo_app]
 }
+
 
 # AWS EKS
 /*
@@ -42,11 +70,24 @@ GKS specific variables and the GKS module call will go here.
 ###
 
 # Setup the Helm Provider here so that subsequent modules don't need to reinstantiate it.
+data "digitalocean_kubernetes_cluster" "k8s_cluster" {
+  name = "group-${var.group_id}"
+
+  depends_on = [
+    module.digitalocean
+  ]
+}
+
+// TODO: If we add a different provider, we'll need to perform logic in order to
+  // properly populate the k8s config for helm based on the appropriate module source.
+  // I THINK we can make this work with lookup. Otherwise it's gonna be ugly.
+
+# Setup the Helm Provider here so that subsequent modules don't need to reinstantiate it.
 provider "helm" {
   kubernetes {
-    host = module.cloud.cluster_endpoint
-    token = module.cloud.cluster_token
-    cluster_ca_certificate = base64decode(module.cloud.cluster_certificate)
+    host = data.digitalocean_kubernetes_cluster.k8s_cluster.endpoint
+    token = data.digitalocean_kubernetes_cluster.k8s_cluster.kube_config[0].token
+    cluster_ca_certificate = base64decode(data.digitalocean_kubernetes_cluster.k8s_cluster.kube_config[0].cluster_ca_certificate)
   }
 }
 
@@ -58,7 +99,7 @@ module "gremlin" {
   group_id = var.group_id
   team_id = var.gremlin_teams[var.group_id].id
   team_secret = var.gremlin_teams[var.group_id].secret
-  container_runtime = module.cloud.container_runtime
+  container_runtime = module.digitalocean[0].container_runtime
 }
 
 
@@ -67,29 +108,15 @@ module "gremlin" {
 # Uncomment the demo application that you want to use.
 ###
 
-# Boutique Shop - Gremlin
-# This is a modified version of the Google Microservices Demo at https://github.com/GoogleCloudPlatform/microservices-demo
-# The modifications allow it to be installed on a smaller Kubernetes cluster.
-module "app" {
+module "boutique_shop" {
+  count = var.demo_app == "boutique_shop" ? 1 : 0
   source = "./modules/app/boutique_shop-gremlin"
 }
 
-# Boutique Shop - Standard install
-# This is the unmodified version of the Google Microservices Demo at https://github.com/GoogleCloudPlatform/microservices-demo
-/*
-module "app" {
-  source = "./modules/app/boutique_shop"
-}
-*/
-
-# Bank of Anthos - Standard install
-# This is the unmodified version of the Google Bank of Anthos demo at https://github.com/GoogleCloudPlatform/bank-of-anthos
-# The features to send metrics and traces to a Google Cloud account have been disabled.
-/*
-module "app" {
+module "bank_of_anthos" {
+  count = var.demo_app == "bank_of_anthos" ? 1 : 0
   source = "./modules/app/bank_of_anthos"
 }
-*/
 
 
 ###
@@ -111,7 +138,6 @@ module "monitoring" {
 
 
 # Datadog
-/*
 variable "datadog_api_key" {
   type        = string
   description = "The Datadog API Key. See https://app.datadoghq.com/account/settings#api to get or create an API Key."
@@ -120,16 +146,24 @@ variable "datadog_app_key" {
   type        = string
   description = "The Datadog Application Key. See https://app.datadoghq.com/account/settings#api to get or create an Application Key."
 }
-module "monitoring" {
+
+# Configure the Datadog provider
+provider "datadog" {
+  api_key = var.datadog_api_key
+  app_key = var.datadog_app_key
+}
+
+module "datadog" {
+  count = var.monitoring_platform == "datadog" ? 1 : 0
   source = "./modules/monitoring/datadog"
 
   # Pass variables
   group_id = var.group_id
   api_key = var.datadog_api_key
   app_key = var.datadog_app_key
-  app = module.app.app
+  app = var.demo_app
 }
-*/
+
 
 # New Relic
 /*

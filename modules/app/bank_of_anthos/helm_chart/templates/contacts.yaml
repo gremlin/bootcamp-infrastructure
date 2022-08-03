@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# [START gke_boa_kubernetes_manifests_contacts_deployment_contacts]
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,14 +30,14 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: contacts
-        image: gcr.io/bank-of-anthos/contacts:v0.5.0
+        image: gcr.io/bank-of-anthos-ci/contacts:v0.5.5
         volumeMounts:
         - name: publickey
           mountPath: "/root/.ssh"
           readOnly: true
         env:
         - name: VERSION
-          value: "v0.5.0"
+          value: "v0.5.5"
         - name: PORT
           value: "8080"
         - name: ENABLE_TRACING
@@ -55,8 +56,8 @@ spec:
             cpu: 100m
             memory: 64Mi
           limits:
-            cpu: 500m
-            memory: 256Mi
+            cpu: 250m
+            memory: 128Mi
         readinessProbe:
           httpGet:
             path: /ready
@@ -71,7 +72,9 @@ spec:
           items:
           - key: jwtRS256.key.pub
             path: publickey
+# [END gke_boa_kubernetes_manifests_contacts_deployment_contacts]
 ---
+# [START gke_boa_kubernetes_manifests_contacts_service_contacts]
 apiVersion: v1
 kind: Service
 metadata:
@@ -84,3 +87,4 @@ spec:
   - name: http
     port: 8080
     targetPort: 8080
+# [END gke_boa_kubernetes_manifests_contacts_service_contacts]
