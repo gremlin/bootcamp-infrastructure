@@ -2,6 +2,9 @@
 .DS_Store
 *.swp
 
+# VSCode
+.vscode
+
 # Terraform state and files
 terraform.tfstate*
 .terraform*
@@ -15,3 +18,4 @@ build_plan
 
 # Local Makefiles
 Makefile
+
