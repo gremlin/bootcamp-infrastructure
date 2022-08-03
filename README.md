@@ -19,7 +19,7 @@ You'll also need Terraform and kubectl (the Kubernetes command-line tool). For m
 
 ### Creating your cluster
 
-1. Edit the [`main.tf file`](https://github.com/gremlin/bootcamp-infrastructure/blob/main/main.tf) in the root directory of this project. Uncomment the cloud provider, demo app, and monitoring provider that you want to use. Also comment out any that you do not want to use.
+1. Use your method of choice to pass in variables for the k8s_provider, demo_app and monitoring_provider that you will be using for the environment. Currently only one of each is supported per configuration.
 1. Run `terraform init` to install the Terraform Providers that will be required.
 1. Run `terraform apply` to begin creating the cluster, related applications and services. Terraform will prompt you for information and credentials that are required for the build.
 
@@ -42,7 +42,7 @@ The `gremlin_teams` JSON object should take the form:
 }
 ```
 
-Note that the group IDs are arbitrary strings (no special characters) and for Gremlin bootcamps we simply use "01", "02", "03", etc.
+Note that the keys for this object are arbitrary strings (no special characters) and for Gremlin bootcamps we simply use "01", "02", "03", etc. ID and secret can be retrieved from your Gremlin account under the `Team Settings > Configuration` section.
 
 Using the Gremlin credentials JSON object above, you can then run Terraform:
 
