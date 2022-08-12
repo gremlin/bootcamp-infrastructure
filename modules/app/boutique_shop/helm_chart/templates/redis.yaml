@@ -39,7 +39,7 @@ spec:
               - all
           privileged: false
           readOnlyRootFilesystem: true
-        image: gcr.io/google-samples/microservices-demo/redis:alpine:v0.3.9
+        image: redis:alpine
         ports:
         - containerPort: 6379
         readinessProbe:

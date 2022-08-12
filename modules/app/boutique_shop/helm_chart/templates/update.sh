@@ -15,6 +15,6 @@ cp microservices-demo/kubernetes-manifests/*.yaml .
 while read line; do
     sed -e 's@image: \(.*\)$@image: gcr.io/google-samples/microservices-demo/\1:'${NEW_VERSION}'@' ${line} > ${line}.new
     mv ${line}.new ${line}
-done < <(ls ./*.yaml)
+done < <(ls ./*.yaml | grep -v redis.yaml)
 
 rm -rf ./microservices-demo
