@@ -110,7 +110,7 @@ module "gremlin" {
 
 module "boutique_shop" {
   count = var.demo_app == "boutique_shop" ? 1 : 0
-  source = "./modules/app/boutique_shop-gremlin"
+  source = "./modules/app/boutique_shop"
 }
 
 module "bank_of_anthos" {
