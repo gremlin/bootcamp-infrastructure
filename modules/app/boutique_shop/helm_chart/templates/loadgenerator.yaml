@@ -47,7 +47,7 @@ spec:
               exit 1
           fi
         name: frontend-check
-        image: gcr.io/google-samples/microservices-demo/busybox:latest:v0.3.9
+        image: busybox:latest
         env:
         - name: FRONTEND_ADDR
           value: "frontend:80"
