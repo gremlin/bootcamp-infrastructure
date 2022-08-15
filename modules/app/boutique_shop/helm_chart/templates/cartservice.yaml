@@ -51,9 +51,6 @@ spec:
           requests:
             cpu: 200m
             memory: 64Mi
-          limits:
-            cpu: 300m
-            memory: 128Mi
         readinessProbe:
           initialDelaySeconds: 15
           exec:
