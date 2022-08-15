@@ -33,7 +33,7 @@ data "digitalocean_kubernetes_versions" "version" {
 locals {
   node_size_by_app = {
     bank_of_anthos = "s-2vcpu-4gb",
-    boutique_shop = "s-1vcpu-2gb"
+    boutique_shop = "s-2vcpu-2gb"
   }
 }
 
