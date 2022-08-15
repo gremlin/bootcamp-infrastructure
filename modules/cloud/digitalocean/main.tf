@@ -29,13 +29,12 @@ resource "digitalocean_kubernetes_cluster" "k8s_cluster" {
   node_pool {
     name = "group-${var.group_id}"
     size = var.node_size
-    node_count = var.cluster_size
     auto_scale = true
     min_nodes = var.cluster_size
     max_nodes = var.cluster_max
     tags = ["group-${var.group_id}"]
-
   }
+
 }
 
 resource "digitalocean_loadbalancer" "public" {
