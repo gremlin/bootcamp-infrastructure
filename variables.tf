@@ -44,3 +44,9 @@ variable "demo_app" {
     error_message = "Invalid demo app selected. Valid options are: boutique_shop, bank_of_anthos."
   }
 }
+
+variable "digitalocean_droplet_slug" {
+  type = string
+  default = ""
+  description = "Provide this to override the default droplet sizes (CPU + memory) used in DigitalOcean"
+}
