@@ -92,7 +92,7 @@ spec:
           #   value: "true"
           resources:
             requests:
-              cpu: 100m
+              cpu: 50m
               memory: 64Mi
 ---
 apiVersion: v1
