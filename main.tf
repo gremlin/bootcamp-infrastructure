@@ -33,8 +33,13 @@ data "digitalocean_kubernetes_versions" "version" {
 locals {
   node_size_by_app = {
     bank_of_anthos = "s-2vcpu-4gb",
-    boutique_shop = "s-2vcpu-2gb"
+    boutique_shop = "s-1vcpu-2gb"
   }
+
+  node_size = coalesce(
+    var.digitalocean_droplet_slug,
+    local.node_size_by_app[var.demo_app]
+  )
 }
 
 module "digitalocean" {
@@ -45,7 +50,7 @@ module "digitalocean" {
   group_id = var.group_id
   token = var.digitalocean_token
   k8s_version = data.digitalocean_kubernetes_versions.version.latest_version
-  node_size = local.node_size_by_app[var.demo_app]
+  node_size = local.node_size
 }
 
 
