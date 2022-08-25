@@ -1,0 +1,4 @@
+- For EKS, replace NodePort with a Loadbalancer.
+    - Loadbalancer requires an annotation to apply a specific security group. I can make that SG inside the EKS module, but then I have to output it and then pass that into the app module. What's tricky is making a decision about which way to go within the helm chart. Maybe I can make that a values.yaml variable...? Alternatively, I can just make both of thm and see how digitalocean responds to
+        (a) A LoadBalancer service.
+        (b) A LoadBalancer service with EKS annotations.

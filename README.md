@@ -66,4 +66,15 @@ More info needed here.
 ## Common Problems
 ### (Digital Ocean) Error: Kubernetes cluster unreachable: invalid configuration: no configuration has been provided, try setting KUBERNETES_MASTER environment variable
 This occurs when terraform is polling for state upgrades, but it's trying to use an old k8s config. This happens if the k8s cluster is upgraded by DO or can happen if a droplet is migrated.
-Try: `terraform plan -target module.digitalocean.digitalocean_kubernetes_cluster.k8s_cluster -target data.digitalocean_kubernetes_cluster.k8s_cluster -out my_plan`, followed by running `terraform apply my_plan`. This will update the state for the kubernetes cluster, and subsequest plan executions should work fine.
+Try: 
+
+```
+terraform plan 
+    -target module.digitalocean.digitalocean_kubernetes_cluster.k8s_cluster
+    -target data.digitalocean_kubernetes_cluster.k8s_cluster
+    -out ./my_plan
+terraform apply ./my_plan
+rm -f ./my_plan 
+```
+
+This will update the state for the kubernetes cluster, and subsequest plan executions should work fine.

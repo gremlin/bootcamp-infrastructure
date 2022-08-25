@@ -12,6 +12,7 @@ terraform.tfstate*
 # Variable files
 *.tfvars*
 
+<<<<<<< Updated upstream
 # Plan files
 build_plan
 *plan*
@@ -19,3 +20,7 @@ build_plan
 # Local Makefiles
 Makefile
 
+=======
+# Environment directory
+envs
+>>>>>>> Stashed changes
