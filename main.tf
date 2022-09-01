@@ -27,7 +27,7 @@ variable "digitalocean_token" {
 }
 
 data "digitalocean_kubernetes_versions" "version" {
-  version_prefix = "1.21."
+  version_prefix = "1.23."
 }
 
 locals {
